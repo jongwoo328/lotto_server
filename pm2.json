@@ -1,0 +1,5 @@
+{
+    "name": "lotto server",
+    "watch": true,
+    "script": "./venv/bin/python3 -m uvicorn main:app --port 8001"
+}
