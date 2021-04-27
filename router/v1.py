@@ -15,5 +15,5 @@ async def get_full_lotto():
 async def get_lotto_by_round(round):
     lotto = session.query(Lotto).filter(Lotto.round==round)
     if not lotto.count():
-        raise HTTPException(status_code=404)
+        raise HTTPException(status_code=404, detail='존재하지 않는 회차입니다.')
     return session.query(Lotto).filter(Lotto.round==round)[0]
