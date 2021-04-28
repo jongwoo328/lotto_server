@@ -40,6 +40,6 @@ class Lotto(Base):
     num6 = Column(Integer)
     bonus = Column(Integer)
 
-db = create_engine(db_url, encoding='utf-8')
+db = create_engine(db_url, encoding='utf-8', pool_recycle=500)
 Session.configure(bind=db)
 session = Session()
