@@ -22,8 +22,8 @@ async def last_lotto():
 
 @router.get('/lottos/{round}', response_model=FullLotto)
 async def get_lotto_by_round(round):
-    lotto = session.query(Lotto).filter(Lotto.round==round)[0]
+    lotto = session.query(Lotto).filter(Lotto.round==round)
     if not lotto.count():
         raise HTTPException(status_code=404, detail='존재하지 않는 회차입니다.')
     session.close()
-    return lotto
+    return lotto[0]
