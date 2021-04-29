@@ -43,7 +43,7 @@ class Lotto(Base):
     bonus = Column(Integer)
 
 db = create_engine(db_url, encoding='utf-8', pool_recycle=500)
-Session.configure(bind=db)
+Session.configure(bind=db, expire_on_commit=False)
 
 @contextmanager
 def session_scope():
@@ -53,5 +53,6 @@ def session_scope():
         session.commit()
     except:
         session.rollback()
+        raise
     finally:
         session.close()
