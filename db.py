@@ -1,10 +1,12 @@
 import os
+from contextlib import contextmanager
 
 from sqlalchemy import Column, Integer, Date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
+
 
 load_dotenv(verbose=True)
 user = os.getenv('user')
@@ -42,4 +44,14 @@ class Lotto(Base):
 
 db = create_engine(db_url, encoding='utf-8', pool_recycle=500)
 Session.configure(bind=db)
-session = Session()
+
+@contextmanager
+def session_scope():
+    session = Session()
+    try:
+        yield session
+        session.commit()
+    except:
+        session.rollback()
+    finally:
+        session.close()
