@@ -25,5 +25,3 @@ class FullLotto(BaseModel):
     bonus: int
     class Config:
         orm_mode = True
-
-    

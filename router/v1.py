@@ -1,8 +1,8 @@
 import datetime
 import random
+from typing import List, Optional, Tuple
 
 from fastapi import APIRouter, HTTPException, Query
-from typing import List, Optional
 from sqlalchemy import and_
 from sqlalchemy.sql import exists, column
 
@@ -11,7 +11,7 @@ from db import session_scope, Lotto
 from .util.util import get_numbers, check_second_and_third
 
 
-router = APIRouter(prefix='/api/v1')
+router = APIRouter(prefix='/api/v1', tags=['v1'])
 
 @router.get('/lottos/new')
 async def get_new_lotto(q: List[str] = Query([])):
