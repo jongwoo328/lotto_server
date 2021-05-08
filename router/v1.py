@@ -2,16 +2,30 @@ import datetime
 import random
 from typing import List, Optional, Tuple
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, HTTPException, Query, Response, status
 from sqlalchemy import and_
 from sqlalchemy.sql import exists, column
 
 from model import FullLotto
 from db import session_scope, Lotto
 from .util.util import get_numbers, check_second_and_third
+from .util.scrap import get_round, get_new_data
 
 
 router = APIRouter(prefix='/api/v1', tags=['v1'])
+
+@router.get('/lottos/update', response_model=FullLotto, status_code=200)
+async def update_new_data(response: Response):
+    with session_scope() as session:
+        last = session.query(Lotto)[-1]
+        scrapped_round = get_round()
+        if last.round != scrapped_round:
+            new_data = get_new_data()
+            session.add(Lotto(**new_data))
+            session.commit()
+            response.status_code = status.HTTP_201_CREATED
+            return new_data
+        return last
 
 @router.get('/lottos/new')
 async def get_new_lotto(q: List[str] = Query([])):
@@ -58,7 +72,7 @@ async def lottos():
 @router.get('/lottos/last', response_model=FullLotto)
 async def last_lotto():
     with session_scope() as session:
-        lotto = session.query(Lotto).order_by(Lotto.round.desc()).first()
+        lotto = session.query(Lotto)[-1]
         return lotto
 
 @router.get('/lottos/{round}', response_model=FullLotto)
