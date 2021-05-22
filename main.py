@@ -3,10 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from router import v1
 
-app = FastAPI(
-    title='lotto API',
-    version='1.0.0'
-)
+app = FastAPI(title="lotto API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,

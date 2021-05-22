@@ -3,6 +3,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+
 class FullLotto(BaseModel):
     round: int
     date: datetime.date
@@ -23,5 +24,6 @@ class FullLotto(BaseModel):
     num5: int
     num6: int
     bonus: int
+
     class Config:
         orm_mode = True

@@ -9,19 +9,20 @@ from dotenv import load_dotenv
 
 
 load_dotenv(verbose=True)
-user = os.getenv('user')
-password = os.getenv('pass')
-host = os.getenv('host')
-port = os.getenv('port')
-database = os.getenv('database')
+user = os.getenv("user")
+password = os.getenv("pass")
+host = os.getenv("host")
+port = os.getenv("port")
+database = os.getenv("database")
 
-db_url = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}?charset=utf8'
+db_url = f"mysql+pymysql://{user}:{password}@{host}:{port}/{database}?charset=utf8"
 
 Base = declarative_base()
 Session = sessionmaker()
 
+
 class Lotto(Base):
-    __tablename__ = 'lotto'
+    __tablename__ = "lotto"
     round = Column(Integer, primary_key=True)
     date = Column(Date)
     first_count = Column(Integer)
@@ -42,8 +43,10 @@ class Lotto(Base):
     num6 = Column(Integer)
     bonus = Column(Integer)
 
-db = create_engine(db_url, encoding='utf-8', pool_recycle=500)
+
+db = create_engine(db_url, encoding="utf-8", pool_recycle=500)
 Session.configure(bind=db, expire_on_commit=False)
+
 
 @contextmanager
 def session_scope():
